@@ -30,10 +30,10 @@ let parse (x:int,y:int,direction:Location,command:string) =
 let rec visit (arr:list<char>,x:int,y:int,loc:Location) = 
         
         match arr with 
-        | [] -> printfn "end of list"
+        | [] -> printfn "-------------------------------"
         | v -> 
         let (x,y,loc) = parse (x,y ,loc, v.Head.ToString())
-        printfn "x:%d, y:%d, Location:%s" x y (loc.ToString())
+        if v.Tail = [] then printfn "x:%d, y:%d, Location:%s" x y (loc.ToString())
         visit(v.Tail, x ,y ,loc )
 
 type Position = {x:int;y:int;dir:Location}
@@ -64,10 +64,10 @@ let rec ShowPosition r:list<Instruction> =
           match head with 
           | Inst1 c1 -> 
             match tail.Head with 
-            | Inst2 c2 -> 
+            | Inst2 c2 ->
                 visit((c2.command |> Seq.toList),c1.x,c1.y,c1.dir)
             | _ -> ()
           | _ -> ()
           ShowPosition tail.Tail
         | _ -> []
-    
+     
