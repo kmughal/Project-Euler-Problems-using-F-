@@ -1,5 +1,7 @@
 ﻿open MarsRover
-
+open System
+open System.Linq
+open System.IO
 [<EntryPoint>]
 let main argv =
     [
@@ -11,20 +13,13 @@ let main argv =
         "LLMMMRRRMM"
     ] |> getInstructions |> ShowPosition |> ignore
 
-    ["khurram";"shahzad"]
-    |> List.fold(fun y x-> y + "-" + x) "" |>ignore
+    let sd = DateTime.Now
+    let stopAfter2Seconds (d:DateTime) = 
+        int(d.Subtract(sd).TotalSeconds) > 2
 
-    ["khurram";"shahzad"] |>
-    (fun f -> 
-    let rec show x = match x with | [] -> printfn "end" | head::tail -> printfn "%s" head; show tail;
-    show f)
-    
-    
-    [100..999]
-    |> (fun f -> printfn "%A" f)
-     
-    
-     
+    printfn "Started:%A" sd
+    Seq.unfold(fun s-> Some(s, DateTime.Now)) DateTime.Now |> Seq.filter stopAfter2Seconds |> Seq.head |> printfn "Stopped:%A"
+    seq {1.. 20} |> Seq.filter(fun f-> f% 2 = 0) |> Seq.head |> printfn "%A"
 
     
     
